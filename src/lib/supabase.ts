@@ -19,8 +19,10 @@ const DEFAULT_SUPABASE_URL = '';
 const DEFAULT_SUPABASE_KEY = '';
 
 export const getSupabaseConfig = () => {
-  let url = (import.meta as any).env?.VITE_SUPABASE_URL;
-  let key = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY;
+  // Runtime (inyectado por el backend vía /config.js) manda sobre lo compilado.
+  const runtime = (typeof window !== 'undefined' ? (window as any).__ENV__ : null) || {};
+  let url = runtime.SUPABASE_URL || (import.meta as any).env?.VITE_SUPABASE_URL;
+  let key = runtime.SUPABASE_ANON_KEY || (import.meta as any).env?.VITE_SUPABASE_ANON_KEY;
 
   if (typeof window !== 'undefined') {
     try {

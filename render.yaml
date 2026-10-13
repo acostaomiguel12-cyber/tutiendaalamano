@@ -1,24 +1,37 @@
 services:
   - type: web
-    name: opuskartel
+    name: tutiendaalamano
     runtime: docker
-    plan: starter
+    # free se duerme por inactividad (~1 min en despertar); starter para producción real.
+    plan: free
     healthCheckPath: /api/health
     envVars:
       # PORT lo inyecta Render solo: no definirlo (el servidor usa process.env.PORT).
       - key: NODE_ENV
         value: production
+      # Públicas: el backend las sirve en /config.js (sin rebuild).
       - key: WOMPI_ENV
         value: production
       - key: WOMPI_PUBLIC_KEY
         sync: false
+      - key: VITE_WOMPI_PUBLIC_KEY
+        sync: false
+      - key: VITE_WOMPI_ENV
+        value: production
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+      # Secretos: SOLO runtime del servidor, nunca al front.
       - key: WOMPI_PRIVATE_KEY
         sync: false
       - key: WOMPI_INTEGRITY_SECRET
         sync: false
       - key: WOMPI_EVENTS_SECRET
-        sync: false
-      - key: SUPABASE_URL
         sync: false
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false

@@ -47,6 +47,9 @@ const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN || '';
 const WHATSAPP_PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID || '';
 const WHATSAPP_API_VERSION = process.env.WHATSAPP_API_VERSION || 'v21.0';
 const SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+// Solo llave PÚBLICA (anon) para el front. NUNCA service_role: bypasea RLS.
+const SUPABASE_ANON_PUBLIC =
+  process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY;
 
 const app = express();
 app.disable('x-powered-by');
@@ -72,8 +75,24 @@ function clientIp(req: express.Request): string {
   return req.socket.remoteAddress || 'unknown';
 }
 
-app.get('/api/health', async (_req, res) => {
-  // Diagnóstico de login admin (conteos, sin emails ni hashes).
+/**
+ * Config pública en runtime (Render/hosting sin rebuild): el front la lee de
+ * window.__ENV__ antes que los valores compilados VITE_*. Sin secretos.
+ * En estático (XAMPP) este archivo no existe y el front usa lo compilado.
+ */
+app.get('/config.js', (_req, res) => {
+  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-store');
+  const cfg = {
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY: SUPABASE_ANON_PUBLIC,
+    WOMPI_PUBLIC_KEY,
+    WOMPI_ENV,
+  };
+  res.send(`window.__ENV__=${JSON.stringify(cfg)};`);
+});
+
+app.get('/api/health', async (_req, res) => {  // Diagnóstico de login admin (conteos, sin emails ni hashes).
   let admin = { users: -1, withPassword: -1 };
   try {
     const sb = supabaseServer();

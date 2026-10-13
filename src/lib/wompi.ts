@@ -1,11 +1,16 @@
 import { PaymentMethod, PaymentStatus, WompiTransactionRecord } from '../types';
 
+const runtimeEnv = (typeof window !== 'undefined' ? (window as any).__ENV__ : null) || {};
+
 export const WOMPI_CONFIG = {
+  // Orden: runtime (/config.js del backend) → compilado VITE_* → demo.
   // Llave pública (no es secreta) + entorno. Todo lo demás vive en el servidor.
   publicKey:
+    runtimeEnv.WOMPI_PUBLIC_KEY ||
     (typeof import.meta !== 'undefined' && import.meta.env?.VITE_WOMPI_PUBLIC_KEY) ||
     'pub_prod_hlVp9WgGN0kWFjDJjNx4wQbDxq1RF0Gw',
   env: (
+    runtimeEnv.WOMPI_ENV ||
     (typeof import.meta !== 'undefined' && import.meta.env?.VITE_WOMPI_ENV) ||
     'production'
   ) as 'production' | 'sandbox',
