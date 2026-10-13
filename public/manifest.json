@@ -1,0 +1,27 @@
+{
+  "id": "/",
+  "name": "Tu Tienda a la Mano - Compra fácil en Colombia",
+  "short_name": "A la Mano",
+  "description": "Tu Tienda a la Mano: precios claros, pago seguro con Wompi y envíos a toda Colombia.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#16a34a",
+  "categories": ["shopping", "lifestyle", "business"],
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: opuskartel
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      # PORT lo inyecta Render solo: no definirlo (el servidor usa process.env.PORT).
+      - key: NODE_ENV
+        value: production
+      - key: WOMPI_ENV
+        value: production
+      - key: WOMPI_PUBLIC_KEY
+        sync: false
+      - key: WOMPI_PRIVATE_KEY
+        sync: false
+      - key: WOMPI_INTEGRITY_SECRET
+        sync: false
+      - key: WOMPI_EVENTS_SECRET
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: ADMIN_SESSION_SECRET
+        generateValue: true
+      - key: WHATSAPP_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        sync: false
