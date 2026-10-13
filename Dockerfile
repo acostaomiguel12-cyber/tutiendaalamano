@@ -15,5 +15,5 @@ COPY --from=build /app/dist ./dist
 COPY server ./server
 EXPOSE 4001
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-  CMD node -e "fetch('http://localhost:4001/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
+  CMD node -e "fetch('http://localhost:'+(process.env.PORT||4001)+'/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
 CMD ["npx", "tsx", "server/index.ts"]
