@@ -3118,7 +3118,15 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (!currentAdminUser) return true;
     if (currentAdminUser.role === 'SUPER_ADMIN') return true;
     if (!currentAdminUser.assignedModules || currentAdminUser.assignedModules.length === 0) {
-      // Role default fallback
+      // Role default fallback (vale también para sesiones de servidor sin módulos).
+      // CUSTOM = operativo de negocio: sin nada administrativo o importante.
+      if (currentAdminUser.role === 'CUSTOM') {
+        return [
+          'dashboard', 'catalog', 'orders', 'shipping', 'customers',
+          'abandoned-checkouts', 'coupons', 'reviews', 'whatsapp-business',
+          'notifications', 'help-center', 'store-preview',
+        ].includes(tab);
+      }
       if (currentAdminUser.role === 'LOGISTICS_MANAGER') {
         return ['dashboard', 'orders', 'shipping', 'customers', 'notifications', 'help-center', 'store-preview'].includes(tab);
       }
@@ -3128,7 +3136,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (currentAdminUser.role === 'SALES_MANAGER') {
         return ['dashboard', 'orders', 'abandoned-checkouts', 'customers', 'coupons', 'reviews', 'whatsapp-business', 'help-center', 'store-preview'].includes(tab);
       }
-      return true;
+      // Rol desconocido sin módulos: denegar por defecto (menor privilegio).
+      return false;
     }
     return currentAdminUser.assignedModules.includes(tab);
   };
