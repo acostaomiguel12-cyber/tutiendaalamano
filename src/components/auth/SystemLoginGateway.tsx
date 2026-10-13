@@ -49,10 +49,8 @@ export const SystemLoginGateway: React.FC = () => {
   const [adminError, setAdminError] = useState<string | null>(null);
   const [isAdminLoading, setIsAdminLoading] = useState(false);
 
-  // Customer form state (no pre-filled usernames or PINs)
+  // Customer form state (solo correo: sin contraseña, primera vez crea la cuenta)
   const [customerEmail, setCustomerEmail] = useState('');
-  const [customerPassword, setCustomerPassword] = useState('');
-  const [showCustomerPassword, setShowCustomerPassword] = useState(false);
   const [customerError, setCustomerError] = useState<string | null>(null);
   const [isCustomerLoading, setIsCustomerLoading] = useState(false);
 
@@ -93,11 +91,6 @@ export const SystemLoginGateway: React.FC = () => {
     const cleanEmail = customerEmail.trim().toLowerCase();
     if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
       setCustomerError('Por favor ingresa un correo electrónico válido.');
-      return;
-    }
-
-    if (!customerPassword || customerPassword.length < 4) {
-      setCustomerError('La contraseña debe tener al menos 4 caracteres.');
       return;
     }
 
@@ -355,30 +348,9 @@ export const SystemLoginGateway: React.FC = () => {
                     </div>
 
                     <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-300">
-                          Contraseña
-                        </label>
-                        <button
-                          type="button"
-                          onClick={() => setShowCustomerPassword(!showCustomerPassword)}
-                          className="text-[10px] text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer"
-                        >
-                          {showCustomerPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                          <span>{showCustomerPassword ? 'Ocultar' : 'Ver'}</span>
-                        </button>
-                      </div>
-                      <div className="relative">
-                        <KeyRound className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                        <input
-                          type={showCustomerPassword ? 'text' : 'password'}
-                          required
-                          value={customerPassword}
-                          onChange={(e) => setCustomerPassword(e.target.value)}
-                          placeholder="••••••••"
-                          className="w-full pl-10 pr-10 py-3 bg-zinc-950 border border-zinc-800 focus:border-emerald-500 rounded-xl text-xs text-white placeholder:text-zinc-600 font-medium focus:outline-hidden transition-all"
-                        />
-                      </div>
+                      <p className="text-[11px] text-zinc-500 leading-relaxed">
+                        Sin contraseña: si es tu primera vez, creamos tu cuenta automáticamente.
+                      </p>
                     </div>
 
                     <button
@@ -391,7 +363,7 @@ export const SystemLoginGateway: React.FC = () => {
                       ) : (
                         <>
                           <ShoppingBag className="w-4 h-4" />
-                          <span>Iniciar Sesión y Entrar a la Tienda</span>
+                          <span>Entrar a la Tienda</span>
                           <ArrowRight className="w-4 h-4" />
                         </>
                       )}
