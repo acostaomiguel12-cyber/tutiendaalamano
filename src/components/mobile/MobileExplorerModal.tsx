@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Search,
   X,
@@ -35,6 +35,15 @@ export const MobileExplorerModal: React.FC<MobileExplorerModalProps> = ({ isOpen
 
   const [localQuery, setLocalQuery] = useState('');
   const [selectedCat, setSelectedCat] = useState<string | null>(activeCategoryFilter);
+
+  // Al abrir, sincroniza con el filtro vigente de la tienda (evita ver
+  // resultados de una selección vieja y que parezca que "no funciona").
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedCat(activeCategoryFilter);
+      setLocalQuery('');
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -192,7 +201,7 @@ export const MobileExplorerModal: React.FC<MobileExplorerModalProps> = ({ isOpen
         </div>
 
         {/* Results List */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-2.5">
+        <div className="flex-1 overflow-y-auto min-h-0 p-4 space-y-2.5">
           <div className="flex items-center justify-between text-xs font-mono text-zinc-500 px-1">
             <span>{filteredProducts.length} PRODUCTOS ENCONTRADOS</span>
             {selectedCat && (

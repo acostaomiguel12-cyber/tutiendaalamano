@@ -33,7 +33,7 @@ export const MobileWishlistModal: React.FC<MobileWishlistModalProps> = ({ isOpen
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto space-y-3 divide-y divide-zinc-100 pr-1">
+        <div className="flex-1 overflow-y-auto min-h-0 space-y-3 divide-y divide-zinc-100 pr-1">
           {wishlistProducts.length === 0 ? (
             <div className="py-12 text-center space-y-3">
               <div className="w-14 h-14 mx-auto rounded-full bg-rose-50 text-rose-400 flex items-center justify-center">

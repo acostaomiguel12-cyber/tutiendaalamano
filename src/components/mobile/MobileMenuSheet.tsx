@@ -113,7 +113,7 @@ export const MobileMenuSheet: React.FC<MobileMenuSheetProps> = ({
         </div>
 
         {/* Scrollable Body */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+        <div className="flex-1 overflow-y-auto min-h-0 px-4 py-4 space-y-4">
           {/* 1. Customer Profile Card or Direct Order Tracking Card */}
           {isCustomerLoggedIn && currentCustomer ? (
             <div
