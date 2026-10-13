@@ -5,6 +5,8 @@ services:
     # free se duerme por inactividad (~1 min en despertar); starter para producción real.
     plan: free
     healthCheckPath: /api/health
+    # Cada push a main despliega solo.
+    autoDeployTrigger: 'commit'
     envVars:
       # PORT lo inyecta Render solo: no definirlo (el servidor usa process.env.PORT).
       - key: NODE_ENV
